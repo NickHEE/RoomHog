@@ -39,7 +39,7 @@ schedule = sheet.range('C5:I29')
 bookings = [Booking(date=sheet.cell(c.row, TIMES).value + sheet.cell(DATES, c.col).value + f" {sheet.cell(2, 3).value}",
                     length=c.value,
                     cell=c)
-            for c in schedule if c.value]
+            for c in schedule if c.value.isdigit()]
 
 # Attempt to find and book a room for each request
 for booking in bookings:

@@ -78,7 +78,7 @@ class BCITStudySession:
             self.bookings['rooms[]'] = availableRooms[0]
             self.bookings['create_by'] = self.loginData['NewUserName']
             b = self.session.post('https://studyrooms.lib.bcit.ca/edit_entry_handler.php', data=self.bookings)
-            # print(b.text)
+            print(b.text)
             self.session.close()
             return rooms[int(availableRooms[0])]
         else:
@@ -93,8 +93,8 @@ class Booking:
         self.account = account
         self.startDate = datetime.strptime(date, '%I:%M %p %m/%d %Y')
         self.endDate = self.startDate + timedelta(hours=int(length))
-        self.startSeconds = int(self.startDate.hour) * 3600
-        self.endSeconds = int(self.endDate.hour) * 3600
+        self.startSeconds = int(self.startDate.hour) * 3600 + int(self.startDate.minute) * 60
+        self.endSeconds = int(self.endDate.hour) * 3600 + int(self.endDate.minute) * 60
         self.room = ''
         self.cell = cell
 
