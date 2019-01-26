@@ -34,12 +34,13 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(script_dir
 client = gspread.authorize(creds)
 sheet = client.open('Room Hog').get_worksheet(1)
 schedule = sheet.range('C5:I29')
+cols = [sheet.range(5, col, 29, col) for col in range(3, 9)]
 
 # Parse the requests sheet and create a list of bookings
-bookings = [Booking(date=sheet.cell(c.row, TIMES).value + sheet.cell(DATES, c.col).value + f" {sheet.cell(2, 3).value}",
-                    length=c.value,
-                    cell=c)
-            for c in schedule if c.value.isdigit()]
+bookings = [Booking(date=sheet.cell(cell.row, TIMES).value + sheet.cell(DATES, cell.col).value + f" {sheet.cell(2, 3).value}",
+                    length=cell.value,
+                    cell=cell)
+            for col in cols for cell in col if cell.value.isdigit()]
 
 # Attempt to find and book a room for each request
 for booking in bookings:
