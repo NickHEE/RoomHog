@@ -74,6 +74,7 @@ class BCITStudySession:
 
         # **add room preference, check if room was booked?
         if availableRooms:
+            availableRooms.sort(reverse=True)
             print("Room Found!")
             self.bookings['rooms[]'] = availableRooms[0]
             self.bookings['create_by'] = self.loginData['NewUserName']
